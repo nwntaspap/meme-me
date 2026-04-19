@@ -1,5 +1,6 @@
 import './style.css';
 import { drawVideo, getVideo } from './assets/camera';
+import { drawText } from './assets/text';
 
 const memeCanvas = document.getElementById('meme');
 
@@ -27,4 +28,14 @@ const video = await getVideo(previewCanvas);
 savePhotoBtn.addEventListener('click', () => {
   drawVideo(video, selfieLayer);
   redrawCanvas();
+});
+
+const saveTextBtn = document.getElementById('text-save');
+saveTextBtn.addEventListener('click', () => {
+  drawText(textLayer);
+  redrawCanvas();
+
+  // Clear the input fields
+  document.getElementById('text-top').value = '';
+  document.getElementById('text-bottom').value = '';
 });
