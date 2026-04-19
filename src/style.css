@@ -1,44 +1,337 @@
+/*--- 1. RESET & VARIABLES ---*/
 :root {
   --bg: #111;
   --surface: #1a1a1a;
-  --text: #fff;
+  --text: #ffffff;
   --accent: #4cafef;
+  --success: #22c55e;
+  --border: #333;
 }
 
 html[data-theme='light'] {
-  --bg: #fff;
+  --bg: #ffffff;
   --surface: #f2f2f2;
-  --text: #111;
+  --text: #111111;
+  --border: #ddd;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+  min-height: 100vh;
+  display: flex; /* Used to center the .container */
+  align-items: center;
+}
+
+.main-heading {
+  text-transform: uppercase;
+}
+
+/*--- 2. THE GRID CONTAINER ---*/
+.container.grid {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+  min-height: 90vh;
+
+  display: grid;
+  grid-template-areas:
+    'header main'
+    'nav    main'
+    'footer main';
+  grid-template-columns: minmax(250px, 30%) 1fr;
+  grid-template-rows: min-content 1fr min-content;
+  gap: 1.5rem;
+}
+
+/*--- 3. LAYOUT AREAS ---*/
+header {
+  grid-area: header;
+}
+
+main {
+  grid-area: main;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+nav {
+  grid-area: nav;
+  place-items: center;
+  place-content: center;
+}
+
+footer {
+  grid-area: footer;
+}
+
+/*--- 4. COMPONENTS ---*/
+#actions.btn-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+.btn-container .action {
+  width: 100%;
+}
+
+.btn-container .action > button {
+  width: 100%;
 }
 
 canvas {
   background: var(--surface);
-  border-radius: 8px;
+  border-radius: 12px;
+  max-width: 100%;
+  height: auto;
+}
+
+#meme {
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
 }
 
 button {
   background: var(--accent);
   color: white;
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
+  padding: 0.8rem 1.2rem;
+  border-radius: 8px;
   cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s;
 }
 
+.action button:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.1);
+}
+
+.action button:active {
+  transform: scale(0.96);
+}
+
+footer a {
+  display: inline-block;
+  text-decoration: none;
+  color: var(--accent);
+  position: relative;
+}
+
+footer a::before {
+  content: '';
+  display: inline-block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: var(--text);
+  transition: all 0.3s;
+}
+
+footer a:hover::before {
+  width: 100%;
+}
+
+button#download-meme {
+  background: var(--success);
+  width: 100%;
+  margin-bottom: 1rem;
+  transition: all 0.3s;
+}
+
+button#download-meme:hover {
+  filter: drop-shadow(0 0 10px var(--success));
+}
+
+/*--- 5. DIALOG / MODAL ---*/
 dialog {
+  margin: auto;
   border: none;
-  border-radius: 10px;
-  padding: 1rem;
+  border-radius: 12px;
+  padding: 0;
+  background: transparent;
+  outline: none;
+}
+
+/* The Blurred Backdrop */
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(4px);
+}
+
+/* The Content Card */
+dialog article {
   background: var(--surface);
   color: var(--text);
+  padding: 2.5rem;
+  border-radius: 12px;
+  width: 480px; /* Optimal width for camera preview and inputs */
+  max-width: 95vw;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
 }
 
-dialog::backdrop {
-  background: rgba(0, 0, 0, 0.6);
+dialog form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+dialog h2 {
+  font-size: 1.5rem;
+  text-transform: capitalize;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+dialog input[type='text'] {
+  width: 100%;
+  padding: 0.8rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+dialog input[type='text']:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+
+/* Preview Canvas (Selfie Modal) */
+#preview {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 2px solid var(--border);
+}
+
+/* Primary Modal Buttons (Save Text / Save Photo) */
+.modal-content button {
+  background: var(--success) !important;
+  width: 100%;
+  font-size: 1rem;
+  padding: 0.9rem;
+}
+
+/* The 'Close' Button (Submit type in method="dialog") */
+dialog form > button[type='submit'] {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 0.9rem;
+  opacity: 0.7;
+  transition: all 0.2s;
+}
+
+dialog form > button[type='submit']:hover {
+  opacity: 1;
+  background: var(--border);
+}
+
+/*--- THE SWITCH COMPONENT ---*/
+#dark-mode {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background: var(--bg);
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid var(--border);
+}
+
+/* Hide the default checkbox */
+#toggle {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 50px;
+  height: 26px;
+  background-color: #444; /* Off state color */
+  border-radius: 50px;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  flex-shrink: 0; /* Prevents it from squishing */
+}
+
+/* The "Knob" of the switch */
+#toggle::before {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* On State (Checked) */
+#toggle:checked {
+  background-color: var(--success);
+}
+
+/* Move the knob when checked */
+#toggle:checked::before {
+  transform: translateX(24px);
+}
+
+/* Hover effect for better feedback */
+#toggle:hover {
+  filter: brightness(1.2);
+}
+
+/*--- 6. RESPONSIVE ---*/
+@media (max-width: 768px) {
+  .main-heading {
+    text-align: center;
+  }
+
+  .container.grid {
+    grid-template-areas:
+      'header'
+      'main'
+      'nav'
+      'footer';
+    grid-template-columns: 1fr;
+    grid-template-rows: max-content auto 1fr max-content;
+    min-height: 100vh;
+  }
+
+  #actions {
+    align-items: center;
+  }
+
+  footer {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 1rem;
+  }
 }
