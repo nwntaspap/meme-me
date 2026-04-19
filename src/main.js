@@ -78,9 +78,27 @@ async function setupTakeSelfie() {
   });
 }
 
+function setupDownload() {
+  const downloadBtn = document.getElementById('download-meme');
+
+  downloadBtn.addEventListener('click', () => {
+    // 1. Convert the canvas to a data URL (PNG format)
+    const dataURL = memeCanvas.toDataURL('image/png');
+
+    // 2. Create a "ghost" anchor element
+    const link = document.createElement('a');
+    link.download = 'my-meme.png'; // The name of the file
+    link.href = dataURL;
+
+    // 3. Trigger the click and remove the link
+    link.click();
+  });
+}
+
 // IIFE in case we don't have top-level await
 (async function run() {
   setupSettings();
   setupAddText();
   await setupTakeSelfie();
+  setupDownload();
 })();
