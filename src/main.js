@@ -1,6 +1,7 @@
 import './style.css';
 import { drawVideo, getVideo } from './assets/camera';
 import { drawText } from './assets/text';
+import { getThemeToggle } from './assets/theme';
 
 const memeCanvas = document.getElementById('meme');
 
@@ -39,3 +40,5 @@ saveTextBtn.addEventListener('click', () => {
   document.getElementById('text-top').value = '';
   document.getElementById('text-bottom').value = '';
 });
+
+getThemeToggle();

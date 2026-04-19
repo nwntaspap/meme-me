@@ -1,19 +1,32 @@
-/* :root {
-  --text: #6b6375;
-  --text-h: #08060d;
+:root {
+  --bg: #111;
+  --surface: #1a1a1a;
+  --text: #fff;
+  --accent: #4cafef;
+}
+
+html[data-theme='light'] {
   --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  --surface: #f2f2f2;
+  --text: #111;
+}
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
-
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color: var(--text);
+body {
   background: var(--bg);
-} */
+  color: var(--text);
+  font-family: sans-serif;
+}
+
+canvas {
+  background: var(--surface);
+  border-radius: 8px;
+}
+
+button {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
