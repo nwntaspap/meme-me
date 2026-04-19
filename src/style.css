@@ -51,7 +51,8 @@ body {
     'nav    main'
     'footer main';
   grid-template-columns: minmax(250px, 30%) 1fr;
-  grid-template-rows: min-content 1fr min-content;
+  grid-template-rows: 1fr auto 1fr;
+  align-items: center;
   gap: 1.5rem;
 }
 
