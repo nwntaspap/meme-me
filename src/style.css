@@ -30,3 +30,15 @@ button {
   border-radius: 6px;
   cursor: pointer;
 }
+
+dialog {
+  border: none;
+  border-radius: 10px;
+  padding: 1rem;
+  background: var(--surface);
+  color: var(--text);
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.6);
+}
